@@ -4,12 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,=">
     <title>文档浏览</title>
 </head>
 
 <body>
     <div>
-        <h2>文件预览</h2>
+        <div style="display:inline-block;">
+            <h2><img src="img/logo.png" alt="logo" />Inde OF/</h2>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -20,14 +24,41 @@
                     <th>描述</th>
                 </tr>
                 <tr>
-                    <th colspan="2">...</th>
+                    <th>...</th>
                 </tr>
             </thead>
             <tbody>
-
+                {{each data}}
+                <tr>
+                    {{if $value.type ==='dir'}}
+                    <td><img src="img/folder.png" alt="folder" srcset=""></td>
+                    {{else if $value.type ==='pic'}}
+                    <td><img src="img/picture.png" alt="picture" srcset=""></td>
+                    {{else}}
+                    <td><img src="img/file.png" alt="text" srcset=""></td>
+                    {{/if}}
+                    <td>{{$value.name}}</td>
+                    <td>{{$value.mtime}}</td>
+                    <td>{{$value.size}}</td>
+                    <td></td>
+                </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
+    <script>
+        function queryFilesByDir(dir) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = xmlhttp.responseText
+                }
+            }
+
+            xhr.open('GET', '127.0.0.1:9000' + dir, true);
+            xhr.send();
+        }
+    </script>
 </body>
 
 </html>
