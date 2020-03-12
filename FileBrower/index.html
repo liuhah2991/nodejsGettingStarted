@@ -5,37 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:;base64,=">
-    <title>文档浏览</title>
+    <title>nodejs入门</title>
 </head>
 
 <body>
-    <div>
+    <div style="margin: 10px;">
         <div style="display:inline-block;">
-            <h2><img src="img/logo.png" alt="logo" />Inde OF/</h2>
+            <img src="http://127.0.0.1:9000/img/logo.png" alt="logo" />
+            <b id="dirName" style="font-size: 32px;">  Index of /</b>
         </div>
 
-        <table>
+        <table style="margin-top: 10px;">
             <thead>
                 <tr>
-                    <th>图标</th>
+                    <th></th>
                     <th>名字</th>
                     <th>修改时间</th>
                     <th>大小</th>
                     <th>描述</th>
                 </tr>
                 <tr>
-                    <th>...</th>
+                    <th onclick="preDir()">...</th>
                 </tr>
             </thead>
             <tbody>
                 {{each data}}
-                <tr>
-                    {{if $value.type ==='dir'}}
-                    <td><img src="img/folder.png" alt="folder" srcset=""></td>
+                {{if $value.type === 'dir'}}
+                <tr onclick="nextDir('{{$value.name}}')">
+                    <td class="dir"><img src="http://127.0.0.1:9000/img/folder.png" alt="folder" srcset=""></td>
                     {{else if $value.type ==='pic'}}
-                    <td><img src="img/picture.png" alt="picture" srcset=""></td>
+                <tr onclick="openfile('{{$value.name}}')">
+                    <td class="pic"><img src="http://127.0.0.1:9000/img/picture.png" alt="picture" srcset=""></td>
                     {{else}}
-                    <td><img src="img/file.png" alt="text" srcset=""></td>
+                <tr onclick="openfile('{{$value.name}}')">
+                    <td class="text"><img src="http://127.0.0.1:9000/img/file.png" alt="text" srcset=""></td>
                     {{/if}}
                     <td>{{$value.name}}</td>
                     <td>{{$value.mtime}}</td>
@@ -47,16 +50,26 @@
         </table>
     </div>
     <script>
-        function queryFilesByDir(dir) {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var response = xmlhttp.responseText
-                }
-            }
+        var dirName = (window.location.href).substr(22,(window.location.href).length-1);
+        document.querySelector('#dirName').innerHTML = "  Index of /" + dirName;
 
-            xhr.open('GET', '127.0.0.1:9000' + dir, true);
-            xhr.send();
+        function preDir() {
+            var urlArr = (window.location.href).split('/');
+            var url = "http://127.0.0.1:9000/";
+            if (urlArr.length > 4) {
+                for (var i = 3; i < urlArr.length - 2; i++) {
+                    url += urlArr[i] + '/';
+                }
+                window.location.href = url;
+            }
+        }
+
+        function nextDir(fn) {
+            window.location.href += fn + '/';
+        }
+
+        function openfile(fn) {
+            window.location.href += fn;
         }
     </script>
 </body>

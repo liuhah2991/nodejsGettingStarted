@@ -1,13 +1,16 @@
 const http = require('http');
 const fs = require('fs');
+const moment = require('moment');
 const template = require('art-template');
 template.defaults.root = './';
+
+
 /**新建http服务对象，并编写 处理http请求的 逻辑代码
  * 
 **/
 var server = http.createServer((req, res) => {
     var path = '.' + req.url;
-    console.log(path);
+    //console.log(path);
     fs.stat(path, (err, stat) => {
         if (err) {
             console.log('File or dir ' + path + " not exist!");
@@ -37,14 +40,13 @@ var server = http.createServer((req, res) => {
 
                                 fileInfoArr[i].name = files[i];
                                 fileInfoArr[i].size = stat.size;
-                                fileInfoArr[i].mtime = stat.mtime;
+                                fileInfoArr[i].mtime = moment(stat.mtime).format('YYYY-MM-DD hh:mm:ss');
 
                                 if (count == files.length) {
                                     //console.log(fileInfoArr);
                                     var htmls = template('./index.html',{
                                         data:fileInfoArr
                                     });
-
                                     res.end(htmls);
                                 }
                             });
