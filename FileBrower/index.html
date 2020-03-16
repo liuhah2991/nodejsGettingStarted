@@ -50,9 +50,11 @@
         </table>
     </div>
     <script>
+        //更新页面中纪录的当前目录信息
         var dirName = (window.location.href).substr(22,(window.location.href).length-1);
         document.querySelector('#dirName').innerHTML = "  Index of /" + dirName;
 
+        //切换至前一级目录，当然如果已经是根目录则进行操作
         function preDir() {
             var urlArr = (window.location.href).split('/');
             var url = "http://127.0.0.1:9000/";
@@ -64,10 +66,12 @@
             }
         }
 
+        //切换至下一级目录
         function nextDir(fn) {
             window.location.href += fn + '/';
         }
 
+        //如果选择的是文件，则直接在线预览
         function openfile(fn) {
             window.location.href += fn;
         }
