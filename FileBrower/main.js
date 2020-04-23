@@ -92,5 +92,5 @@ var server = http.createServer((req, res) => {
 
 //http服务对象绑定端口监听
 server.listen(9000, () => {
-    console.log("http:127.0.0.1:9000/");
+    console.log("http://127.0.0.1:9000");
 });
